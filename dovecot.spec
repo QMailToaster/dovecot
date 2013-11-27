@@ -13,6 +13,16 @@ URL:            http://www.dovecot.org/
 %global phversion 0.4.2
 Source:         http://dovecot.org/releases/2.2/%{name}-%{version}.tar.gz
 Source1:        http://www.rename-it.nl/dovecot/2.2/%{name}-2.2-pigeonhole-0.4.2.tar.gz
+Source2:	dovecot.pam.el5
+Source3:	dovecot.pam.el6
+Source4:	dovecot.conf.5
+Source5:	dovecot.prestartscript
+Source6:	dovecot.tmpfilesd
+Source7:	dovecot.init
+Source8:	dovecot.sysconfig
+Source9:	dovecot.conf
+Source10:	dovecot.toaster.conf
+Source11:	dovecot.local.conf
 
 # 3x Fedora/RHEL specific
 Patch1: dovecot-2.0-defaultconfig.patch
