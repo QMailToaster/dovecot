@@ -1,10 +1,7 @@
 Name:           dovecot
 Summary:        Secure imap and pop3 server
 Epoch:          1
-%define dversion 2.2
-%define drelease 7
-Version:        %{dversion}.%{drelease}
-%global phversion 0.4.2
+Version:        2.2.7
 Release:        0%{?dist}
 License:        MIT and LGPLv2
 #               dovecot itself is MIT,
@@ -12,18 +9,10 @@ License:        MIT and LGPLv2
 #               a few sources are Public Domain
 Group:          System Environment/Daemons
 URL:            http://www.dovecot.org/
-Source:         http://dovecot.org/releases/%{dversion}/%{name}-%{version}.tar.gz
-Source1:        http://www.rename-it.nl/dovecot/%{dversion}/%{name}-%{dversion}-pigeonhole-%{phversion}.tar.gz
-Source2:	https://raw.github.com/QMailToaster/pkgs/master/%{name}/dovecot.pam.el5
-Source3:	https://raw.github.com/QMailToaster/pkgs/master/%{name}/dovecot.pam.el6
-Source4:	https://raw.github.com/QMailToaster/pkgs/master/%{name}/dovecot.conf.5
-Source5:	https://raw.github.com/QMailToaster/pkgs/master/%{name}/dovecot.prestartscript
-Source6:	https://raw.github.com/QMailToaster/pkgs/master/%{name}/dovecot.tmpfilesd
-Source7:	https://raw.github.com/QMailToaster/pkgs/master/%{name}/dovecot.init
-Source8:	https://raw.github.com/QMailToaster/pkgs/master/%{name}/dovecot.sysconfig
-Source9:	https://raw.github.com/QMailToaster/pkgs/master/%{name}/dovecot.conf
-Source10:	https://raw.github.com/QMailToaster/pkgs/master/%{name}/dovecot.toaster.conf
-Source11:	https://raw.github.com/QMailToaster/pkgs/master/%{name}/dovecot.local.conf
+%define dversion 2.2
+%global phversion 0.4.2
+Source:         http://dovecot.org/releases/2.2/%{name}-%{version}.tar.gz
+Source1:        http://www.rename-it.nl/dovecot/2.2/%{name}-2.2-pigeonhole-0.4.2.tar.gz
 
 # 3x Fedora/RHEL specific
 Patch1: dovecot-2.0-defaultconfig.patch
@@ -245,14 +234,14 @@ install -m 644 AUTHORS ChangeLog COPYING COPYING.LGPL INSTALL NEWS README \
 popd
 
 %if %{?fedora}00%{?rhel} < 6
-  install -Dp %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot
+  install -Dp dovecot.pem.el5 $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot/.
 %else
-  install -Dp %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot
+  install -Dp dovecot.pem.el6 $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot/.
 %endif
 
-install -Dp %{SOURCE4} $RPM_BUILD_ROOT%{_mandir}/man5/dovecot.conf.5
+install -Dp dovecot.conf.5    $RPM_BUILD_ROOT%{_mandir}/man5/.
 
-install     %{SOURCE5} $RPM_BUILD_ROOT%{_libexecdir}/dovecot/prestartscript
+install     dovecot.prestartscript $RPM_BUILD_ROOT%{_libexecdir}/dovecot/.
 
 # generate ghost .pem files
 mkdir -p $RPM_BUILD_ROOT%{ssldir}/certs
@@ -263,10 +252,10 @@ chmod 600 $RPM_BUILD_ROOT%{ssldir}/certs/dovecot.pem
 chmod 600 $RPM_BUILD_ROOT%{ssldir}/private/dovecot.pem
 
 %if %{?fedora}0 > 140 || %{?rhel}0 > 60
-  install     %{SOURCE6} $RPM_BUILD_ROOT%{_tmpfilesdir}/dovecot.conf
+  install     dovecot.tmpfilesd $RPM_BUILD_ROOT%{_tmpfilesdir}/dovecot.conf
 %else
-  install -Dp %{SOURCE7} $RPM_BUILD_ROOT%{_initddir}/dovecot
-  install -Dp %{SOURCE8} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/dovecot
+  install -Dp dovecot.init      $RPM_BUILD_ROOT%{_initddir}/dovecot/.
+  install -Dp dovecot.sysconfig $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/dovecot
 %endif
 
 mkdir -p $RPM_BUILD_ROOT/var/run/dovecot/{login,empty}
@@ -280,9 +269,9 @@ install -p -m 644 docinstall/example-config/conf.d/*.conf.ext $RPM_BUILD_ROOT%{_
 install -p -m 644 $RPM_BUILD_ROOT/%{_docdir}/%{name}-pigeonhole/example-config/conf.d/*.conf.ext $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/conf.d ||:
 install -p -m 644 doc/dovecot-openssl.cnf $RPM_BUILD_ROOT%{ssldir}/dovecot-openssl.cnf
 
-install %{SOURCE9}  $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/dovecot.conf
-install %{SOURCE10} $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/toaster.conf
-install %{SOURCE11} $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/local.conf
+install dovecot.conf         $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/.
+install dovecot.toaster.conf $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/toaster.conf
+install dovecot.local.conf   $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/local.conf
 
 install -p -m755 doc/mkcert.sh $RPM_BUILD_ROOT%{_libexecdir}/%{name}/mkcert.sh
 
