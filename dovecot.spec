@@ -244,14 +244,14 @@ install -m 644 AUTHORS ChangeLog COPYING COPYING.LGPL INSTALL NEWS README \
 popd
 
 %if %{?fedora}00%{?rhel} < 6
-  install -Dp dovecot.pem.el5 $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot/.
+  install -Dp %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot/.
 %else
-  install -Dp dovecot.pem.el6 $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot/.
+  install -Dp %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot/.
 %endif
 
-install -Dp dovecot.conf.5    $RPM_BUILD_ROOT%{_mandir}/man5/.
+install -Dp %{SOURCE4}   $RPM_BUILD_ROOT%{_mandir}/man5/.
 
-install     dovecot.prestartscript $RPM_BUILD_ROOT%{_libexecdir}/dovecot/.
+install     %{SOURCE5}   $RPM_BUILD_ROOT%{_libexecdir}/dovecot/.
 
 # generate ghost .pem files
 mkdir -p $RPM_BUILD_ROOT%{ssldir}/certs
@@ -262,10 +262,10 @@ chmod 600 $RPM_BUILD_ROOT%{ssldir}/certs/dovecot.pem
 chmod 600 $RPM_BUILD_ROOT%{ssldir}/private/dovecot.pem
 
 %if %{?fedora}0 > 140 || %{?rhel}0 > 60
-  install     dovecot.tmpfilesd $RPM_BUILD_ROOT%{_tmpfilesdir}/dovecot.conf
+  install     %{SOURCE6}     $RPM_BUILD_ROOT%{_tmpfilesdir}/dovecot.conf
 %else
-  install -Dp dovecot.init      $RPM_BUILD_ROOT%{_initddir}/dovecot/.
-  install -Dp dovecot.sysconfig $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/dovecot
+  install -Dp %{SOURCE7}     $RPM_BUILD_ROOT%{_initddir}/dovecot/.
+  install -Dp %{SOURCE8}     $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/dovecot
 %endif
 
 mkdir -p $RPM_BUILD_ROOT/var/run/dovecot/{login,empty}
@@ -279,9 +279,9 @@ install -p -m 644 docinstall/example-config/conf.d/*.conf.ext $RPM_BUILD_ROOT%{_
 install -p -m 644 $RPM_BUILD_ROOT/%{_docdir}/%{name}-pigeonhole/example-config/conf.d/*.conf.ext $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/conf.d ||:
 install -p -m 644 doc/dovecot-openssl.cnf $RPM_BUILD_ROOT%{ssldir}/dovecot-openssl.cnf
 
-install dovecot.conf         $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/.
-install dovecot.toaster.conf $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/toaster.conf
-install dovecot.local.conf   $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/local.conf
+install %{SOURCE9}   $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/.
+install %{SOURCE10}  $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/toaster.conf
+install %{SOURCE11}  $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/local.conf
 
 install -p -m755 doc/mkcert.sh $RPM_BUILD_ROOT%{_libexecdir}/%{name}/mkcert.sh
 
