@@ -271,7 +271,7 @@ chmod 600 $RPM_BUILD_ROOT%{ssldir}/private/dovecot.pem
 %else
   install -Dp %{_sourcedir}/dovecot.init \
               $RPM_BUILD_ROOT%{_initddir}/dovecot
-  install -DP %{_sourcedir}/dovecot.sysconfig
+  install -DP %{_sourcedir}/dovecot.sysconfig \
               $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/dovecot
 %endif
 
