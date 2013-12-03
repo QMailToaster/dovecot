@@ -245,16 +245,17 @@ popd
 
 %if %{?fedora}00%{?rhel} < 6
   install -Dp %{_sourcedir}/dovecot.pam.el5 \
-              $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot/.
+              $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot
 %else
   install -Dp %{_sourcedir}/dovecot.pam.el6 \
-              $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot/.
+              $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot
 %endif
 
 install -Dp %{_sourcedir}/dovecot.conf.5 \
-            $RPM_BUILD_ROOT%{_mandir}/man5/.
+            $RPM_BUILD_ROOT%{_mandir}/man5
 
-install     %{SOURCE5}   $RPM_BUILD_ROOT%{_libexecdir}/dovecot/.
+install     %{_sourcedir}/dovecot.prestartscript \
+            $RPM_BUILD_ROOT%{_libexecdir}/dovecot
 
 # generate ghost .pem files
 mkdir -p $RPM_BUILD_ROOT%{ssldir}/certs
@@ -286,7 +287,7 @@ install -p -m 644 $RPM_BUILD_ROOT/%{_docdir}/%{name}-pigeonhole/example-config/c
 install -p -m 644 doc/dovecot-openssl.cnf $RPM_BUILD_ROOT%{ssldir}/dovecot-openssl.cnf
 
 install %{_sourcedir}/dovecot.conf \
-        $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/.
+        $RPM_BUILD_ROOT%{_sysconfdir}/dovecot
 install %{_sourcedir}/dovecot.toaster.conf \
         $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/toaster.conf
 install %{_sourcedir}/dovecot.local.conf \
