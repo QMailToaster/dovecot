@@ -15,7 +15,7 @@ Source:         http://dovecot.org/releases/2.2/%{name}-%{version}.tar.gz
 Source1:        http://www.rename-it.nl/dovecot/2.2/%{name}-2.2-pigeonhole-0.4.2.tar.gz
 Source2:	dovecot.pam.el5
 Source3:	dovecot.pam.el6
-Source4:	dovecot.conf.5
+Source4:	dovecot.conf.5.gz
 Source5:	dovecot.prestartscript
 Source6:	dovecot.tmpfilesd
 Source7:	dovecot.init
@@ -251,8 +251,8 @@ popd
               $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot
 %endif
 
-install -Dp %{_sourcedir}/dovecot.conf.5 \
-            $RPM_BUILD_ROOT%{_mandir}/man5
+install -Dp %{_sourcedir}/dovecot.conf.5.gz \
+            $RPM_BUILD_ROOT%{_mandir}/man5/dovecot.conf.5.gz
 
 install     %{_sourcedir}/dovecot.prestartscript \
             $RPM_BUILD_ROOT%{_libexecdir}/dovecot
