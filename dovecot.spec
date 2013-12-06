@@ -90,6 +90,10 @@ BuildRequires: vpopmail-devel
 # vpopmail should be able to be on a separate host
 #Requires: vpopmail
 
+Obsoletes:  courier-imap-toaster
+Obsoletes:  courier-authlib-toaster
+Obsoletes:  qmail-pop3d-toaster
+
 BuildRoot:  %{_topdir}/BUILDROOT/%{name}-%{version}-%{release}.%{_arch}
 
 %define debug_package %{nil}
