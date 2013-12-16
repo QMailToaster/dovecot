@@ -188,7 +188,7 @@ export LDFLAGS="-Wl,-z,now -Wl,-z,relro"
     --with-pgsql                               \
     --with-mysql                               \
     --with-sqlite                              \
-    --with-vpopmail=/etc/vpopmail              \
+    --with-vpopmail=/etc/libvpopmail           \
     --with-zlib                                \
     --with-libcap                              \
 %if %{?fedora}0 > 150 || %{?rhel}0 >60
@@ -220,11 +220,11 @@ pushd %{name}-%{dversion}-pigeonhole-%{phversion}
 [ -f configure ] || autoreconf -fiv
 [ -f ChangeLog ] || echo "Pigeonhole ChangeLog is not available, yet" >ChangeLog
 
-%configure                                \
-    INSTALL_DATA="install -c -p -m644"    \
-    --disable-static                      \
-    --with-dovecot=../                    \
-    --with-vpopmail=/usr/include/vpopmail \
+%configure                                   \
+    INSTALL_DATA="install -c -p -m644"       \
+    --disable-static                         \
+    --with-dovecot=../                       \
+    --with-vpopmail=/usr/include/libvpopmail \
     --without-unfinished-features
 
 make %{?_smp_mflags}
