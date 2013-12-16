@@ -86,7 +86,7 @@ BuildRequires: curl-devel expat-devel
 BuildRequires: libcurl-devel expat-devel
 %endif
 
-BuildRequires: vpopmail-devel
+BuildRequires: libvpopmail-static
 # vpopmail should be able to be on a separate host
 #Requires: vpopmail
 
