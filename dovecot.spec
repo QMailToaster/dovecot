@@ -235,81 +235,78 @@ popd
 #-------------------------------------------------------------------------------
 rm -rf %{buildroot}
 
-make install DESTDIR=$RPM_BUILD_ROOT
+make install DESTDIR=%{buildroot}
 
 #move doc dir back to build dir so doc macro in files section can use it
-mv $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} \
+mv %{buildroot}%{_docdir}/%{name}-%{version} \
       %{_builddir}/%{name}-%{version}%{?prever}/docinstall
 
 pushd %{name}-%{dversion}-pigeonhole-%{phversion}
-make install DESTDIR=$RPM_BUILD_ROOT
-mv $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} \
-      $RPM_BUILD_ROOT/%{_docdir}/%{name}-pigeonhole
+make install DESTDIR=%{buildroot}
+mv %{buildroot}%{_docdir}/%{name}-%{version} \
+      %{buildroot}%{_docdir}/%{name}-pigeonhole
 install -m 644 AUTHORS ChangeLog COPYING COPYING.LGPL INSTALL NEWS README \
-      $RPM_BUILD_ROOT/%{_docdir}/%{name}-pigeonhole
+      %{buildroot}%{_docdir}/%{name}-pigeonhole
 popd
 
 %if %{?fedora}00%{?rhel} < 6
-  install -Dp %{_sourcedir}/dovecot.pam.el5 \
-              $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot
+  install -Dp %{SOURCE2}  %{buildroot}%{_sysconfdir}/pam.d/dovecot
 %else
-  install -Dp %{_sourcedir}/dovecot.pam.el6 \
-              $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/dovecot
+  install -Dp %{SOURCE3}  %{buildroot}%{_sysconfdir}/pam.d/dovecot
 %endif
 
-install -Dp %{_sourcedir}/dovecot.conf.5.gz \
-            $RPM_BUILD_ROOT%{_mandir}/man5/dovecot.conf.5.gz
+install -Dp %{SOURCE4}    %{buildroot}%{_mandir}/man5/dovecot.conf.5.gz
 
-install     %{_sourcedir}/dovecot.prestartscript \
-            $RPM_BUILD_ROOT%{_libexecdir}/dovecot
+install     %{SOURCE5}    %{buildroot}%{_libexecdir}/dovecot
 
 # generate ghost .pem files
-mkdir -p $RPM_BUILD_ROOT%{ssldir}/certs
-mkdir -p $RPM_BUILD_ROOT%{ssldir}/private
-touch $RPM_BUILD_ROOT%{ssldir}/certs/dovecot.pem
-touch $RPM_BUILD_ROOT%{ssldir}/private/dovecot.pem
-chmod 600 $RPM_BUILD_ROOT%{ssldir}/certs/dovecot.pem
-chmod 600 $RPM_BUILD_ROOT%{ssldir}/private/dovecot.pem
+mkdir -p  %{buildroot}%{ssldir}/certs
+mkdir -p  %{buildroot}%{ssldir}/private
+touch     %{buildroot}%{ssldir}/certs/dovecot.pem
+touch     %{buildroot}%{ssldir}/private/dovecot.pem
+chmod 600 %{buildroot}%{ssldir}/certs/dovecot.pem
+chmod 600 %{buildroot}%{ssldir}/private/dovecot.pem
 
 %if %{?fedora}0 > 140 || %{?rhel}0 > 60
-  install     %{_sourcedir}/dovecot.tmpfilesd \
-              $RPM_BUILD_ROOT%{_tmpfilesdir}/dovecot.conf
+  install     %{SOURCE6}  %{buildroot}%{_tmpfilesdir}/dovecot.conf
 %else
-  install -Dp %{_sourcedir}/dovecot.init \
-              $RPM_BUILD_ROOT%{_initddir}/dovecot
-  install -DP %{_sourcedir}/dovecot.sysconfig \
-              $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/dovecot
+  install -Dp %{SOURCE7}  %{buildroot}%{_initddir}/dovecot
+  install -DP %{SOURCE8}  %{buildroot}%{_sysconfdir}/sysconfig/dovecot
 %endif
 
-mkdir -p $RPM_BUILD_ROOT/var/run/dovecot/{login,empty}
+mkdir -p %{buildroot}/var/run/dovecot/{login,empty}
 
 # Install dovecot configuration and dovecot-openssl.cnf
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/conf.d
-#install -p -m 644 docinstall/example-config/dovecot.conf $RPM_BUILD_ROOT%{_sysconfdir}/dovecot
-install -p -m 644 docinstall/example-config/conf.d/*.conf $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/conf.d
-install -p -m 644 $RPM_BUILD_ROOT/%{_docdir}/%{name}-pigeonhole/example-config/conf.d/*.conf $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/conf.d
-install -p -m 644 docinstall/example-config/conf.d/*.conf.ext $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/conf.d
-install -p -m 644 $RPM_BUILD_ROOT/%{_docdir}/%{name}-pigeonhole/example-config/conf.d/*.conf.ext $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/conf.d ||:
-install -p -m 644 doc/dovecot-openssl.cnf $RPM_BUILD_ROOT%{ssldir}/dovecot-openssl.cnf
+mkdir -p %{buildroot}%{_sysconfdir}/dovecot/conf.d
+#install -p -m 644 docinstall/example-config/dovecot.conf \
+#      %{buildroot}%{_sysconfdir}/dovecot
+install -p -m 644 docinstall/example-config/conf.d/*.conf \
+      %{buildroot}%{_sysconfdir}/dovecot/conf.d
+install -p -m 644 %{buildroot}%{_docdir}/%{name}-pigeonhole/example-config/conf.d/*.conf \
+      %{buildroot}%{_sysconfdir}/dovecot/conf.d
+install -p -m 644 docinstall/example-config/conf.d/*.conf.ext \
+      %{buildroot}%{_sysconfdir}/dovecot/conf.d
+install -p -m 644 %{buildroot}%{_docdir}/%{name}-pigeonhole/example-config/conf.d/*.conf.ext \
+      %{buildroot}%{_sysconfdir}/dovecot/conf.d ||:
+install -p -m 644 doc/dovecot-openssl.cnf \
+      %{buildroot}%{ssldir}/dovecot-openssl.cnf
 
-install %{_sourcedir}/dovecot.conf \
-        $RPM_BUILD_ROOT%{_sysconfdir}/dovecot
-install %{_sourcedir}/dovecot.toaster.conf \
-        $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/toaster.conf
-install %{_sourcedir}/dovecot.local.conf \
-        $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/local.conf
+install %{SOURCE9}   %{buildroot}%{_sysconfdir}/dovecot
+install %{SOURCE10}  %{buildroot}%{_sysconfdir}/dovecot/toaster.conf
+install %{SOURCE11}  %{buildroot}%{_sysconfdir}/dovecot/local.conf
 
-install -p -m755 doc/mkcert.sh $RPM_BUILD_ROOT%{_libexecdir}/%{name}/mkcert.sh
+install -p -m755 doc/mkcert.sh %{buildroot}%{_libexecdir}/%{name}/mkcert.sh
 
-mkdir -p $RPM_BUILD_ROOT/var/lib/dovecot
+mkdir -p %{buildroot}/var/lib/dovecot
 
 #remove the libtool archives
-find $RPM_BUILD_ROOT%{_libdir}/%{name}/ -name '*.la' | xargs rm -f
+find %{buildroot}%{_libdir}/%{name}/ -name '*.la' -exec rm -f {} \;
 
 #remove what we don't want
-rm -f $RPM_BUILD_ROOT%{_sysconfdir}/dovecot/README
+rm -f %{buildroot}%{_sysconfdir}/dovecot/README
 pushd docinstall
-rm -f securecoding.txt thread-refs.txt
+  rm -f securecoding.txt \
+        thread-refs.txt
 popd
 
 #-------------------------------------------------------------------------------
