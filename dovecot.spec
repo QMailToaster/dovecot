@@ -23,6 +23,8 @@ Source8:	dovecot.sysconfig
 Source9:	dovecot.conf
 Source10:	dovecot.toaster.conf
 Source11:	dovecot.local.conf
+Source12:	dovecot.lib.x86_64
+Source13:	dovecot.lib.i386
 
 # 3x Fedora/RHEL specific
 Patch1: dovecot-2.0-defaultconfig.patch
@@ -311,12 +313,10 @@ popd
 
 # add ld.so dovecot config
 %ifarch x86_64
-  libsfx=64
+  install -Dp %{SOURCE12} %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %else
-  libsfx=""
+  install -Dp %{SOURCE13} %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %endif
-echo "/usr/lib$libsfx/dovecot" \
-      > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 
 #-------------------------------------------------------------------------------
 %clean
