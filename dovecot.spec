@@ -309,6 +309,15 @@ pushd docinstall
         thread-refs.txt
 popd
 
+# add ld.so dovecot config
+%ifarch x86_64
+  libsfx=64
+%else
+  libsfx=""
+%endif
+echo "/usr/lib$libsfx/dovecot" \
+      > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
+
 #-------------------------------------------------------------------------------
 %clean
 #-------------------------------------------------------------------------------
@@ -341,8 +350,7 @@ fi
 #-------------------------------------------------------------------------------
 %post
 #-------------------------------------------------------------------------------
-if [ $1 -eq 1 ]
-then
+if [ $1 -eq 1 ]; then
 %if %{?fedora}0 > 140 || %{?rhel}0 > 60
   %systemd_post dovecot.service
 %else
@@ -364,6 +372,7 @@ install -d -m 0755 -g dovecot -d /var/run/dovecot
 install -d -m 0755            -d /var/run/dovecot/empty
 install -d -m 0750 -g dovenull   /var/run/dovecot/login
 [ -x /sbin/restorecon ] && /sbin/restorecon -R /var/run/dovecot
+[ -x /sbin/ldconfig ] && /sbin/ldconfig
 
 #-------------------------------------------------------------------------------
 %preun
@@ -393,6 +402,8 @@ if [ "$1" -ge "1" -a -e %restart_flag ]; then
     /sbin/service %{name} start >/dev/null 2>&1 || :
 %endif
 fi
+
+[ -x /sbin/ldconfig ] && /sbin/ldconfig
 
 #-------------------------------------------------------------------------------
 %posttrans
@@ -435,6 +446,8 @@ make check
 %{_initddir}/dovecot
 %attr(0600,root,root) %config(noreplace) %{_sysconfdir}/sysconfig/dovecot
 %endif
+
+%config %{_sysconfdir}/ld.so.conf.d/%{name}.conf
 
 %dir %{_sysconfdir}/dovecot
 %dir %{_sysconfdir}/dovecot/conf.d
