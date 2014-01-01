@@ -1,30 +1,32 @@
-Name:           dovecot
-Summary:        Secure imap and pop3 server
-Epoch:          1
-Version:        2.2.7
-Release:        0%{?dist}
-License:        MIT and LGPLv2
-#               dovecot itself is MIT,
-#               pigeonhole is LGPLv2,
-#               a few sources are Public Domain
-Group:          System Environment/Daemons
-URL:            http://www.dovecot.org/
+Name:      dovecot
+Summary:   Secure imap and pop3 server
+Epoch:     1
+Version:   2.2.7
+Release:   0%{?dist}
+License:   MIT and LGPLv2
+#          dovecot itself is MIT,
+#          pigeonhole is LGPLv2,
+#          a few sources are Public Domain
+Group:     System Environment/Daemons
+Vendor:    QmailToaster
+Packager:  Eric Shubert <qmt-build@datamatters.us>
+URL:       http://www.dovecot.org/
 %define dversion 2.2
 %global phversion 0.4.2
-Source:         http://dovecot.org/releases/2.2/%{name}-%{version}.tar.gz
-Source1:        http://www.rename-it.nl/dovecot/2.2/%{name}-2.2-pigeonhole-0.4.2.tar.gz
-Source2:	dovecot.pam.el5
-Source3:	dovecot.pam.el6
-Source4:	dovecot.conf.5.gz
-Source5:	dovecot.prestartscript
-Source6:	dovecot.tmpfilesd
-Source7:	dovecot.init
-Source8:	dovecot.sysconfig
-Source9:	dovecot.conf
-Source10:	dovecot.toaster.conf
-Source11:	dovecot.local.conf
-Source12:	dovecot.lib.x86_64
-Source13:	dovecot.lib.i386
+Source:    http://dovecot.org/releases/2.2/%{name}-%{version}.tar.gz
+Source1:   http://www.rename-it.nl/dovecot/2.2/%{name}-2.2-pigeonhole-0.4.2.tar.gz
+Source2:   dovecot.pam.el5
+Source3:   dovecot.pam.el6
+Source4:   dovecot.conf.5.gz
+Source5:   dovecot.prestartscript
+Source6:   dovecot.tmpfilesd
+Source7:   dovecot.init
+Source8:   dovecot.sysconfig
+Source9:   dovecot.conf
+Source10:  dovecot.toaster.conf
+Source11:  dovecot.local.conf
+Source12:  dovecot.lib.x86_64
+Source13:  dovecot.lib.i386
 
 # 3x Fedora/RHEL specific
 Patch1: dovecot-2.0-defaultconfig.patch
