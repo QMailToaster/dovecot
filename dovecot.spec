@@ -458,7 +458,7 @@ make check
 %config(noreplace) %{_sysconfdir}/dovecot/dovecot.conf
 %config(noreplace) %{_sysconfdir}/dovecot/toaster.conf
 %config(noreplace) %{_sysconfdir}/dovecot/local.conf
-%config(noreplace) %{_sysconfdir}/logroate.d/dovecot
+%config(noreplace) %{_sysconfdir}/logrotate.d/dovecot
 #list all so we'll be noticed if upstream changes anything
 %config(noreplace) %{_sysconfdir}/dovecot/conf.d/10-auth.conf
 %config(noreplace) %{_sysconfdir}/dovecot/conf.d/10-director.conf
