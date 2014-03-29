@@ -296,10 +296,10 @@ install -p -m 644 %{buildroot}%{_docdir}/%{name}-pigeonhole/example-config/conf.
 install -p -m 644 doc/dovecot-openssl.cnf \
       %{buildroot}%{ssldir}/dovecot-openssl.cnf
 
-install %{SOURCE9}   %{buildroot}%{_sysconfdir}/dovecot
-install %{SOURCE10}  %{buildroot}%{_sysconfdir}/dovecot/toaster.conf
-install %{SOURCE11}  %{buildroot}%{_sysconfdir}/dovecot/local.conf
-install %{SOURCE12}  %{buildroot}%{_sysconfdir}/logrotate.d/dovecot
+install     %{SOURCE9}   %{buildroot}%{_sysconfdir}/dovecot
+install     %{SOURCE10}  %{buildroot}%{_sysconfdir}/dovecot/toaster.conf
+install     %{SOURCE11}  %{buildroot}%{_sysconfdir}/dovecot/local.conf
+install -Dp %{SOURCE12}  %{buildroot}%{_sysconfdir}/logrotate.d/dovecot
 
 install -p -m755 doc/mkcert.sh %{buildroot}%{_libexecdir}/%{name}/mkcert.sh
 
