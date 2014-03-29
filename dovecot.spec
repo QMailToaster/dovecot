@@ -25,8 +25,9 @@ Source8:   dovecot.sysconfig
 Source9:   dovecot.conf
 Source10:  dovecot.toaster.conf
 Source11:  dovecot.local.conf
-Source12:  dovecot.lib.x86_64
-Source13:  dovecot.lib.i386
+Source12:  dovecot.logrotate
+Source13:  dovecot.lib.x86_64
+Source14:  dovecot.lib.i386
 
 # 3x Fedora/RHEL specific
 Patch1: dovecot-2.0-defaultconfig.patch
@@ -298,6 +299,7 @@ install -p -m 644 doc/dovecot-openssl.cnf \
 install %{SOURCE9}   %{buildroot}%{_sysconfdir}/dovecot
 install %{SOURCE10}  %{buildroot}%{_sysconfdir}/dovecot/toaster.conf
 install %{SOURCE11}  %{buildroot}%{_sysconfdir}/dovecot/local.conf
+install %{SOURCE12}  %{buildroot}%{_sysconfdir}/logrotate.d/dovecot
 
 install -p -m755 doc/mkcert.sh %{buildroot}%{_libexecdir}/%{name}/mkcert.sh
 
@@ -315,9 +317,9 @@ popd
 
 # add ld.so dovecot config
 %ifarch x86_64
-  install -Dp %{SOURCE12} %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
-%else
   install -Dp %{SOURCE13} %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
+%else
+  install -Dp %{SOURCE14} %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %endif
 
 #-------------------------------------------------------------------------------
@@ -456,6 +458,7 @@ make check
 %config(noreplace) %{_sysconfdir}/dovecot/dovecot.conf
 %config(noreplace) %{_sysconfdir}/dovecot/toaster.conf
 %config(noreplace) %{_sysconfdir}/dovecot/local.conf
+%config(noreplace) %{_sysconfdir}/logroate.d/dovecot
 #list all so we'll be noticed if upstream changes anything
 %config(noreplace) %{_sysconfdir}/dovecot/conf.d/10-auth.conf
 %config(noreplace) %{_sysconfdir}/dovecot/conf.d/10-director.conf
@@ -583,6 +586,7 @@ make check
 - Added CentOS 6 support
 - Updated to current upstream versions, updating spec from Fedora development
 - Added changelog entries from fedoraproject development spec file
+- Added logrotate config
 - First 'official'/'stock' QMT version
 
 * Thu Nov 14 2013 Michal Hlavinka <mhlavink@redhat.com> - 1:2.2.7-2
